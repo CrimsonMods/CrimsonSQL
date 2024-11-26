@@ -11,6 +11,7 @@ public readonly struct Settings
     public static ConfigEntry<int> Port { get; private set; }
     public static ConfigEntry<string> UserName { get; private set; }
     public static ConfigEntry<string> Password { get; private set; }
+    public static ConfigEntry<string> Parameters { get; private set; }
 
     public static bool MySQLConfigured { get; set; } = false;
 
@@ -26,6 +27,8 @@ public readonly struct Settings
             "The login username for your database.");
         Password = InitConfigEntry("ServerConnection", "Password", "",
             "The login password for your database.");
+        Parameters = InitConfigEntry("ServerConnection", "AdditionalParameters", "",
+            "Some variations of MySQL require additional parameters on the connection string; such as \"CharSet=utf8mb4;Convert Zero Datetime=True;Allow Zero Datetime=True;\" put those here if needed.");
 
         if (
             !string.IsNullOrEmpty(DatabaseName.Value)

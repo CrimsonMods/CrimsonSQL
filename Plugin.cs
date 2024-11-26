@@ -25,11 +25,13 @@ public class Plugin : BasePlugin
         Settings = new Settings();
         Settings.InitConfig();
 
-        // Harmony patching
         _harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
         _harmony.PatchAll(System.Reflection.Assembly.GetExecutingAssembly());
-
-        SQLService = new SQLService();
+        
+        if (Settings.MySQLConfigured)
+        {
+            SQLService = new SQLService();
+        }
     }
 
     public override bool Unload()

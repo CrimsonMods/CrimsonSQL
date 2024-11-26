@@ -2,6 +2,7 @@
 using CrimsonSQL.Structs;
 using CrimsonSQL.Utility;
 using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -16,7 +17,7 @@ internal class SQLService : ISQLService
     {
         AssemblyResolver.Resolve();
 
-        connectionString = $"Server={Settings.Host.Value};Database={Settings.DatabaseName.Value};User ID={Settings.UserName.Value};Password={Settings.Password.Value};CharSet=utf8mb4;Convert Zero Datetime=True;Allow Zero Datetime=True;";
+        connectionString = $"Server={Settings.Host.Value};Database={Settings.DatabaseName.Value};User ID={Settings.UserName.Value};Password={Settings.Password.Value};{Settings.Parameters.Value}";
 
         Connect();
     }
@@ -35,8 +36,12 @@ internal class SQLService : ISQLService
         catch (MySqlException e)
         {
             Settings.MySQLConfigured = false;
-            Plugin.LogInstance.LogError("Failed to connect to MySQL database.");
-            Plugin.LogInstance.LogError(e.Message);
+            Plugin.LogInstance.LogError("Failed to connect to MySQL database. " +
+                $"\nError Info:" +
+                $"\nError Code: {e.ErrorCode} " +
+                $"\nNumber: {e.Number} " +
+                $"\nMessage: {e.Message}" +
+                $"\nInner: {e.InnerException.Message}");
             return false;
         }
     }
@@ -49,15 +54,27 @@ internal class SQLService : ISQLService
         ExecuteNonQuery(query);
     }
 
-    public void Insert(string tableName, Dictionary<string, object> values)
+    public int Insert(string tableName, Dictionary<string, object> values)
     {
         if (!Settings.MySQLConfigured) { Plugin.LogInstance.LogError("Attempted to use CrimsonSQL with a misconfigured SQL."); }
         var columns = string.Join(", ", values.Keys);
         var parameters = string.Join(", ", values.Keys.Select(k => $"@{k}"));
 
-        string query = $"INSERT INTO {tableName} ({columns}) VALUES ({parameters})";
+        string query = $"INSERT INTO {tableName} ({columns}) VALUES ({parameters}); SELECT LAST_INSERT_ID();";
 
-        ExecuteNonQuery(query, values);
+        using var connection = new MySqlConnection(connectionString);
+        using var command = new MySqlCommand(query, connection);
+
+        if (values != null)
+        {
+            foreach (var param in values)
+            {
+                command.Parameters.AddWithValue($"@{param.Key}", param.Value);
+            }
+        }
+
+        connection.Open();
+        return Convert.ToInt32(command.ExecuteScalar());
     }
 
     public void Delete(string tableName, Dictionary<string, object> whereConditions)
