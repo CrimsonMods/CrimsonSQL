@@ -66,8 +66,9 @@ var values = new Dictionary<string, object>
     { "score", 1000 }
 };
 
-CrimsonSQL.Plugin.SQLService.Insert("player_stats", values);
+int i = CrimsonSQL.Plugin.SQLService.Insert("player_stats", values);
 ```
+Insert will return an int of the entry's primary key. -1 is reserved for SQL Error.
 
 - Deleting Data
 ```csharp

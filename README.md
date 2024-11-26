@@ -7,7 +7,7 @@ For example; [CrimsonBanned](https://thunderstore.io/c/v-rising/p/skytech6/Crims
 
 ## Installation
 * Install [BepInEx](https://v-rising.thunderstore.io/package/BepInEx/BepInExPack_V_Rising/)
-* Extract _CrimsonSQL_ into _(VRising server folder)/BepInEx/plugins_
+* Extract _CrimsonSQL.dll_ into _(VRising server folder)/BepInEx/plugins_
 
 I recommend setting your MySQL database to version _8.0.22_ if possible or other MySQL 8 versions. May work with other versions 7 & 9 and may work with other flavors of SQL such as MariaDB, but no gurantees. 
 
@@ -61,7 +61,7 @@ If you're having issues with connection to the database, it is possible the conn
 
 ## Verify Install
 
-In your BepInEx LogOutput.txt file you will see either a successful connection message
+In your _(VRising server folder)/BepInEx/LogOutput.log_ file you will see either a successful connection message
 ```
 [Info   :   BepInEx] Loading [CrimsonSQL 0.1.10]
 [Info   :CrimsonSQL] Connected to MySQL database.
