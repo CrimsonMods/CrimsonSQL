@@ -36,6 +36,14 @@ public override void Load()
 }
 ```
 
+or a tad cleaner method
+
+```csharp
+public static ISQLService SQL => IL2CPPChainloader.Instance.Plugins.TryGetValue("CrimsonSQL", out var pluginInfo)
+    ? CrimsonSQL.Plugin.SQLService
+    : null;
+```
+
 3. In your mod's code, you can now use CrimsonSQL to interact with MySQL databases. Here's some examples:
 
 - Creating Tables

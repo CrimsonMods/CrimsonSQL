@@ -19,7 +19,7 @@ I recommend setting your MySQL database to version _8.0.22_ if possible or other
 # Default value: 
 DatabaseName = crimsonbans_db
 ```
-You need to setup your MySQL server with an empty database. The tables will be automatically generated to this database by mods that use CrimsonSQL.
+You need to setup your MySQL server with an empty database. The tables will be automatically generated in this database by mods that use CrimsonSQL.
 
 ```
 ## The host address of your MySQL database.
@@ -35,7 +35,7 @@ The IP Address of your SQL Server.
 # Default value: 3306
 Port = 3306
 ```
-3306 is the default port of MySQL, but yours uses another it will need to be supplied here.
+3306 is the default port of MySQL, but if yours uses another it will need to be supplied here.
 
 ```
 ## The login username for your database.
@@ -57,10 +57,20 @@ The login credentials for your SQL Server. It doesn't need to be root/admin, but
 AdditionalParameters = 
 ```
 
-If you're having issues with connection to the database, it is possible the connection string is missing additional parameters. This is likely to occure when you use different flavors of MySQL such as MariaDB. Consult documentation or server provider for what parameters you need to add. I will not help with setting up connection to your version of SQL.
+If you're having issues with connection to the database, it is possible the connection string is missing additional parameters. This is likely to occur when you use different flavors of MySQL such as MariaDB. Consult documentation or your server provider for what parameters you need to add. I will not help with setting up the connection to your version of SQL.
+
+## Verify Install
+
+In your BepInEx LogOutput.txt file you will see either a successful connection message
+```
+[Info   :   BepInEx] Loading [CrimsonSQL 0.1.10]
+[Info   :CrimsonSQL] Connected to MySQL database.
+```
+
+Or an error message that prints out information from SQL on what is wrong. Refer to the [SQL Error Documentation](https://dev.mysql.com/doc/mysql-errors/8.0/en/server-error-reference.html) for the output error code. 
 
 ## Integration with Other Mods
-This mod was created alongside [CrimsonBanned](https://thunderstore.io/c/v-rising/p/skytech6/CrimsonBanned/), but is in no way only usable with that one mod. Any mod can integrate with CrimsonSQL. Check out the wiki section for documentation on how to integrate this mod as an optional dependency. 
+This mod was created alongside [CrimsonBanned](https://thunderstore.io/c/v-rising/p/skytech6/CrimsonBanned/), but is in no way only usable with that one mod. Any mod can integrate with CrimsonSQL. Check out the [wiki section for documentation](https://thunderstore.io/c/v-rising/p/skytech6/CrimsonSQL/wiki/) on how to integrate this mod as an optional dependency. 
 
 ## Support
 
