@@ -53,7 +53,7 @@ internal class SQLService : ISQLService
         string query = $@"CREATE TABLE IF NOT EXISTS {tableName} ({columnDefinitions});";
         ExecuteNonQuery(query);
     }
-
+    
     public int Insert(string tableName, Dictionary<string, object> values)
     {
         if (!Settings.MySQLConfigured) { Plugin.LogInstance.LogError("Attempted to use CrimsonSQL with a misconfigured SQL."); }
@@ -73,8 +73,15 @@ internal class SQLService : ISQLService
             }
         }
 
-        connection.Open();
-        return Convert.ToInt32(command.ExecuteScalar());
+        try
+        {
+            connection.Open();
+            return Convert.ToInt32(command.ExecuteScalar());
+        }
+        catch (MySqlException)
+        {
+            return -1;
+        }
     }
 
     public void Delete(string tableName, Dictionary<string, object> whereConditions)
