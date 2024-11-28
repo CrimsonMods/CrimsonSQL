@@ -53,7 +53,7 @@ internal class SQLService : ISQLService
         string query = $@"CREATE TABLE IF NOT EXISTS {tableName} ({columnDefinitions});";
         ExecuteNonQuery(query);
     }
-    
+
     public int Insert(string tableName, Dictionary<string, object> values)
     {
         if (!Settings.MySQLConfigured) { Plugin.LogInstance.LogError("Attempted to use CrimsonSQL with a misconfigured SQL."); }
@@ -78,8 +78,13 @@ internal class SQLService : ISQLService
             connection.Open();
             return Convert.ToInt32(command.ExecuteScalar());
         }
-        catch (MySqlException)
+        catch (MySqlException e)
         {
+            Plugin.LogInstance.LogError("MySQL Exception occurred: " +
+                $"\nError Code: {e.ErrorCode} " +
+                $"\nNumber: {e.Number} " +
+                $"\nMessage: {e.Message}" +
+                $"\nInner: {e.InnerException?.Message}");
             return -1;
         }
     }
@@ -106,6 +111,42 @@ internal class SQLService : ISQLService
         }
 
         return ExecuteQuery(query, whereConditions);
+    }
+
+    public bool Replace(string tableName, Dictionary<string, object> whereConditions, Dictionary<string, object> newValues)
+    {
+        if (!Settings.MySQLConfigured) { Plugin.LogInstance.LogError("Attempted to use CrimsonSQL with a misconfigured SQL."); return false; }
+
+        using var connection = new MySqlConnection(connectionString);
+        connection.Open();
+        using var transaction = connection.BeginTransaction();
+
+        try
+        {
+            // Delete the existing row
+            var where = string.Join(" AND ", whereConditions.Keys.Select(k => $"{k} = @{k}"));
+            string deleteQuery = $"DELETE FROM {tableName} WHERE {where}";
+            ExecuteNonQuery(deleteQuery, whereConditions);
+
+            // Insert the new row
+            var columns = string.Join(", ", newValues.Keys);
+            var parameters = string.Join(", ", newValues.Keys.Select(k => $"@{k}"));
+            string insertQuery = $"INSERT INTO {tableName} ({columns}) VALUES ({parameters})";
+            ExecuteNonQuery(insertQuery, newValues);
+
+            transaction.Commit();
+            return true;
+        }
+        catch (MySqlException e)
+        {
+            transaction.Rollback();
+            Plugin.LogInstance.LogError("MySQL Exception occurred during Replace: " +
+                $"\nError Code: {e.ErrorCode} " +
+                $"\nNumber: {e.Number} " +
+                $"\nMessage: {e.Message}" +
+                $"\nInner: {e.InnerException?.Message}");
+            return false;
+        }
     }
 
     public DataTable ExecuteQuery(string query, Dictionary<string, object> parameters = null)
