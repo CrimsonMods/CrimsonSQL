@@ -39,7 +39,7 @@ public interface ISQLService
     /// <param name="tableName">Name of the target table</param>
     /// <param name="values">Dictionary of column names and values to insert</param>
     /// <returns>The ID of the newly inserted row</returns>
-    int Insert(string tableName, Dictionary<string, object> values);
+    int Insert(string tableName, Dictionary<string, object> values, List<int> handledExceptions = null);
 
     /// <summary>
     /// Deletes rows from the specified table that match the given conditions
@@ -64,5 +64,5 @@ public interface ISQLService
     /// <param name="whereConditions">Dictionary of column names and values to identify rows to replace</param>
     /// <param name="newValues">Dictionary of column names and new values to insert</param>
     /// <returns>True if replacement successful, false otherwise</returns>
-    bool Replace(string tableName, Dictionary<string, object> whereConditions, Dictionary<string, object> newValues);
+    int Replace(string tableName, Dictionary<string, object> whereConditions, Dictionary<string, object> newValues);
 }

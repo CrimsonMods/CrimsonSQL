@@ -12,7 +12,7 @@ namespace CrimsonSQL.Services;
 internal class SQLService : ISQLService
 {
     private static string connectionString;
-
+    private static bool reportConnection = true;
     public SQLService()
     {
         AssemblyResolver.Resolve();
@@ -29,7 +29,11 @@ internal class SQLService : ISQLService
             using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                Plugin.LogInstance.LogInfo("Connected to MySQL database.");
+                if (reportConnection)
+                {
+                    reportConnection = false;
+                    Plugin.LogInstance.LogInfo("Connected to MySQL database.");
+                }
                 return true;
             }
         }
@@ -42,21 +46,23 @@ internal class SQLService : ISQLService
                 $"\nNumber: {e.Number} " +
                 $"\nMessage: {e.Message}" +
                 $"\nInner: {e.InnerException.Message}");
+
+            reportConnection = true;
             return false;
         }
     }
 
     public void CreateTable(string tableName, Dictionary<string, string> columns)
     {
-        if (!Settings.MySQLConfigured) { Plugin.LogInstance.LogError("Attempted to use CrimsonSQL with a misconfigured SQL."); }
+        if (!Settings.MySQLConfigured) { Plugin.LogInstance.LogError("Attempted to use CrimsonSQL with a misconfigured SQL."); return; }
         var columnDefinitions = string.Join(", ", columns.Select(kvp => $"{kvp.Key} {kvp.Value}"));
         string query = $@"CREATE TABLE IF NOT EXISTS {tableName} ({columnDefinitions});";
         ExecuteNonQuery(query);
     }
 
-    public int Insert(string tableName, Dictionary<string, object> values)
+    public int Insert(string tableName, Dictionary<string, object> values, List<int> handledExceptions = null)
     {
-        if (!Settings.MySQLConfigured) { Plugin.LogInstance.LogError("Attempted to use CrimsonSQL with a misconfigured SQL."); }
+        if (!Settings.MySQLConfigured) { Plugin.LogInstance.LogError("Attempted to use CrimsonSQL with a misconfigured SQL."); return -1; }
         var columns = string.Join(", ", values.Keys);
         var parameters = string.Join(", ", values.Keys.Select(k => $"@{k}"));
 
@@ -80,18 +86,22 @@ internal class SQLService : ISQLService
         }
         catch (MySqlException e)
         {
-            Plugin.LogInstance.LogError("MySQL Exception occurred: " +
+            if (handledExceptions == null || !handledExceptions.Contains(e.Number))
+            {
+                Plugin.LogInstance.LogError("MySQL Exception occurred: " +
                 $"\nError Code: {e.ErrorCode} " +
                 $"\nNumber: {e.Number} " +
                 $"\nMessage: {e.Message}" +
                 $"\nInner: {e.InnerException?.Message}");
-            return -1;
+            }
+
+            return -e.Number;
         }
     }
 
     public void Delete(string tableName, Dictionary<string, object> whereConditions)
     {
-        if (!Settings.MySQLConfigured) { Plugin.LogInstance.LogError("Attempted to use CrimsonSQL with a misconfigured SQL."); }
+        if (!Settings.MySQLConfigured) { Plugin.LogInstance.LogError("Attempted to use CrimsonSQL with a misconfigured SQL."); return; }
         var where = string.Join(" AND ", whereConditions.Keys.Select(k => $"{k} = @{k}"));
         string query = $"DELETE FROM {tableName} WHERE {where}";
 
@@ -100,7 +110,7 @@ internal class SQLService : ISQLService
 
     public DataTable Select(string tableName, string[] columns = null, Dictionary<string, object> whereConditions = null)
     {
-        if (!Settings.MySQLConfigured) { Plugin.LogInstance.LogError("Attempted to use CrimsonSQL with a misconfigured SQL."); }
+        if (!Settings.MySQLConfigured) { Plugin.LogInstance.LogError("Attempted to use CrimsonSQL with a misconfigured SQL."); return null; }
         var selectedColumns = columns?.Any() == true ? string.Join(", ", columns) : "*";
         var query = $"SELECT {selectedColumns} FROM {tableName}";
 
@@ -113,9 +123,9 @@ internal class SQLService : ISQLService
         return ExecuteQuery(query, whereConditions);
     }
 
-    public bool Replace(string tableName, Dictionary<string, object> whereConditions, Dictionary<string, object> newValues)
+    public int Replace(string tableName, Dictionary<string, object> whereConditions, Dictionary<string, object> newValues)
     {
-        if (!Settings.MySQLConfigured) { Plugin.LogInstance.LogError("Attempted to use CrimsonSQL with a misconfigured SQL."); return false; }
+        if (!Settings.MySQLConfigured) { Plugin.LogInstance.LogError("Attempted to use CrimsonSQL with a misconfigured SQL."); return -1; }
 
         using var connection = new MySqlConnection(connectionString);
         connection.Open();
@@ -126,16 +136,30 @@ internal class SQLService : ISQLService
             // Delete the existing row
             var where = string.Join(" AND ", whereConditions.Keys.Select(k => $"{k} = @{k}"));
             string deleteQuery = $"DELETE FROM {tableName} WHERE {where}";
-            ExecuteNonQuery(deleteQuery, whereConditions);
+            using (var deleteCommand = new MySqlCommand(deleteQuery, connection, transaction))
+            {
+                foreach (var param in whereConditions)
+                {
+                    deleteCommand.Parameters.AddWithValue($"@{param.Key}", param.Value);
+                }
+                deleteCommand.ExecuteNonQuery();
+            }
 
-            // Insert the new row
+            // Insert the new row and get ID
             var columns = string.Join(", ", newValues.Keys);
             var parameters = string.Join(", ", newValues.Keys.Select(k => $"@{k}"));
-            string insertQuery = $"INSERT INTO {tableName} ({columns}) VALUES ({parameters})";
-            ExecuteNonQuery(insertQuery, newValues);
+            string insertQuery = $"INSERT INTO {tableName} ({columns}) VALUES ({parameters}); SELECT LAST_INSERT_ID();";
 
-            transaction.Commit();
-            return true;
+            using (var insertCommand = new MySqlCommand(insertQuery, connection, transaction))
+            {
+                foreach (var param in newValues)
+                {
+                    insertCommand.Parameters.AddWithValue($"@{param.Key}", param.Value);
+                }
+                int newId = Convert.ToInt32(insertCommand.ExecuteScalar());
+                transaction.Commit();
+                return newId;
+            }
         }
         catch (MySqlException e)
         {
@@ -145,7 +169,8 @@ internal class SQLService : ISQLService
                 $"\nNumber: {e.Number} " +
                 $"\nMessage: {e.Message}" +
                 $"\nInner: {e.InnerException?.Message}");
-            return false;
+                
+            return -e.Number;
         }
     }
 
