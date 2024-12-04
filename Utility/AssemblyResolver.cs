@@ -14,7 +14,7 @@ public static class AssemblyResolver
 
             string resourceName = args.Name switch
             {
-                string name when name.StartsWith("MySql.Data") => "CrimsonSQL._9._1._0.lib.net6._0.MySql.Data.dll",
+                string name when name.StartsWith("MySql.Data") => "CrimsonSQL._8._0._22.lib.net6._0.MySql.Data.dll",
                 string name when name.StartsWith("System.Diagnostics.DiagnosticSource") => "CrimsonSQL._8._0._1.lib.net6._0.System.Diagnostics.DiagnosticSource.dll",
                 string name when name.StartsWith("System.Security.Permissions") => "CrimsonSQL._8._0._0.lib.net6._0.System.Security.Permissions.dll",
                 string name when name.StartsWith("System.Configuration.ConfigurationManager") => "CrimsonSQL._8._0._0.lib.net6._0.System.Configuration.ConfigurationManager.dll",
