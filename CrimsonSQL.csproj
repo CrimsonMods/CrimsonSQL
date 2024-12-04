@@ -34,12 +34,11 @@
 	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Include="$(NuGetPackageRoot)mysql.data\8.0.22\lib\net5.0\MySql.Data.dll" />
-		<EmbeddedResource Include="$(NuGetPackageRoot)system.diagnostics.diagnosticsource\*\lib\net6.0\System.Diagnostics.DiagnosticSource.dll" />
-		<EmbeddedResource Include="$(NuGetPackageRoot)system.security.permissions\8.0.0\lib\net6.0\System.Security.Permissions.dll" />
-		<EmbeddedResource Include="$(NuGetPackageRoot)system.configuration.configurationmanager\8.0.0\lib\net6.0\System.Configuration.ConfigurationManager.dll" />
-		<EmbeddedResource Include="$(NuGetPackageRoot)system.text.encoding.codepages\8.0.0\lib\net6.0\System.Text.Encoding.CodePages.dll" />
-	</ItemGroup>
-	<ItemGroup>
+		<EmbeddedResource Include="$(NuGetPackageRoot)system.diagnostics.diagnosticsource\8.0.1\lib\net6.0\System.Diagnostics.DiagnosticSource.dll" />
+		<EmbeddedResource Include="$(NuGetPackageRoot)system.security.permissions\4.7.0\lib\netcoreapp3.0\System.Security.Permissions.dll" />
+		<EmbeddedResource Include="$(NuGetPackageRoot)system.configuration.configurationmanager\4.7.0\lib\netstandard2.0\System.Configuration.ConfigurationManager.dll" />
+		<EmbeddedResource Include="$(NuGetPackageRoot)system.text.encoding.codepages\4.7.0\lib\netstandard2.0\System.Text.Encoding.CodePages.dll" />
+	</ItemGroup>	<ItemGroup>
 	  <None Include=".github\FUNDING.yml" />
 	  <None Include=".github\workflows\build.yml" />
 	</ItemGroup>
