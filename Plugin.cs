@@ -26,12 +26,12 @@ public class Plugin : BasePlugin
         var assembly = System.Reflection.Assembly.GetExecutingAssembly();
         var resourceNames = assembly.GetManifestResourceNames();
 
-        LogInstance.LogInfo("=== Embedded Resources ===");
+        LogInstance.LogDebug("=== Embedded Resources ===");
         foreach (var resource in resourceNames)
         {
-            LogInstance.LogInfo(resource);
+            LogInstance.LogDebug(resource);
         }
-        LogInstance.LogInfo("========================");
+        LogInstance.LogDebug("========================");
 
         Settings = new Settings();
         Settings.InitConfig();
