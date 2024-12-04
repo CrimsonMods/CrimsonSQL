@@ -17,7 +17,7 @@ public class Plugin : BasePlugin
     public static Harmony Harmony => Instance._harmony;
     public static ManualLogSource LogInstance => Instance.Log;
     public static Settings Settings;
-    public static object SQLService { get; private set; }
+    public static SQLService SQLService { get; private set; }
 
     public override void Load()
     {

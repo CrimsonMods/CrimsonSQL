@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace CrimsonSQL.Services;
 
-internal class SQLService : ISQLService
+public class SQLService : ISQLService
 {
     private static string connectionString;
     private static bool reportConnection = true;
