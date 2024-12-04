@@ -1,7 +1,6 @@
 ﻿using CrimsonSQL.API;
 using CrimsonSQL.Structs;
-using CrimsonSQL.Utility;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Data;

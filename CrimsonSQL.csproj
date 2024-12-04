@@ -1,21 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <AssemblyName>CrimsonSQL</AssemblyName>
-    <Description>A V Rising Framework for using MySQL</Description>
-    <Version>0.1.10</Version>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <LangVersion>latest</LangVersion>
-    <RootNamespace>CrimsonSQL</RootNamespace>
-    <AssemblyVersion>0.1.10.0</AssemblyVersion>
-    <FileVersion>0.1.10.0</FileVersion>
-    <InformationalVersion>0.1.10+1.Branch.main.Sha.c33d0879382e1a0da34861ec55914ba7e637a80e</InformationalVersion>
-  </PropertyGroup>
-	<Target Name="Thunderstore Copy to Dist" AfterTargets="AfterBuild" Condition=" '$(Configuration' == 'Release'">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<AssemblyName>CrimsonSQL</AssemblyName>
+		<Description>A V Rising Framework for using MySQL</Description>
+		<Version>0.1.10</Version>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<LangVersion>latest</LangVersion>
+		<RootNamespace>CrimsonSQL</RootNamespace>
+		<AssemblyVersion>0.1.10.0</AssemblyVersion>
+		<FileVersion>0.1.10.0</FileVersion>
+		<InformationalVersion>0.1.10+1.Branch.main.Sha.c33d0879382e1a0da34861ec55914ba7e637a80e</InformationalVersion>
+	</PropertyGroup>
+	<Target Name="Thunderstore Copy to Dist" AfterTargets="AfterBuild"
+		Condition=" '$(Configuration' == 'Release'">
 		<Copy SourceFiles="$(OutDir)\CrimsonSQL.dll" DestinationFolder="$(SolutionDir)/dist" />
 	</Target>
 	<ItemGroup>
-		<PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.721" IncludeAssets="compile" />
+		<PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.721"
+			IncludeAssets="compile" />
 		<PackageReference Include="BepInEx.Core" Version="6.0.0-be.721" IncludeAssets="compile" />
 		<PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
 		<PackageReference Include="Costura.Fody" Version="5.7.0">
@@ -24,7 +26,6 @@
 		<PackageReference Include="Fody" Version="6.9.1">
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="MySql.Data" Version="8.0.22" />
 		<PackageReference Include="MySqlConnector" Version="2.4.0" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
 		<PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.0" />
@@ -35,13 +36,19 @@
 		<Folder Include="images\" />
 	</ItemGroup>
 	<ItemGroup>
-		<EmbeddedResource Include="$(NuGetPackageRoot)mysql.data\8.0.22\lib\net5.0\MySql.Data.dll" />
-		<EmbeddedResource Include="$(NuGetPackageRoot)system.diagnostics.diagnosticsource\8.0.1\lib\net6.0\System.Diagnostics.DiagnosticSource.dll" />
-		<EmbeddedResource Include="$(NuGetPackageRoot)system.security.permissions\4.7.0\lib\netcoreapp3.0\System.Security.Permissions.dll" />
-		<EmbeddedResource Include="$(NuGetPackageRoot)system.configuration.configurationmanager\4.7.0\lib\netstandard2.0\System.Configuration.ConfigurationManager.dll" />
-		<EmbeddedResource Include="$(NuGetPackageRoot)system.text.encoding.codepages\4.7.0\lib\netstandard2.0\System.Text.Encoding.CodePages.dll" />
-	</ItemGroup>	<ItemGroup>
-	  <None Include=".github\FUNDING.yml" />
-	  <None Include=".github\workflows\build.yml" />
+		<EmbeddedResource
+			Include="$(NuGetPackageRoot)mysqlconnector\2.4.0\lib\net6.0\MySqlConnector.dll" />
+		<EmbeddedResource
+			Include="$(NuGetPackageRoot)system.diagnostics.diagnosticsource\8.0.1\lib\net6.0\System.Diagnostics.DiagnosticSource.dll" />
+		<EmbeddedResource
+			Include="$(NuGetPackageRoot)system.security.permissions\4.7.0\lib\netcoreapp3.0\System.Security.Permissions.dll" />
+		<EmbeddedResource
+			Include="$(NuGetPackageRoot)system.configuration.configurationmanager\4.7.0\lib\netstandard2.0\System.Configuration.ConfigurationManager.dll" />
+		<EmbeddedResource
+			Include="$(NuGetPackageRoot)system.text.encoding.codepages\4.7.0\lib\netstandard2.0\System.Text.Encoding.CodePages.dll" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include=".github\FUNDING.yml" />
+		<None Include=".github\workflows\build.yml" />
 	</ItemGroup>
 </Project>
