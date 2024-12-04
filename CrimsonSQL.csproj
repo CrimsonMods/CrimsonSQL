@@ -33,11 +33,11 @@
 		<Folder Include="images\" />
 	</ItemGroup>
 	<ItemGroup>
-		<EmbeddedResource Include="$(NuGetPackageRoot)mysql.data\*\lib\net6.0\MySql.Data.dll" />
+		<EmbeddedResource Include="$(NuGetPackageRoot)mysql.data\8.0.22\lib\net5.0\MySql.Data.dll" />
 		<EmbeddedResource Include="$(NuGetPackageRoot)system.diagnostics.diagnosticsource\*\lib\net6.0\System.Diagnostics.DiagnosticSource.dll" />
-		<EmbeddedResource Include="$(NuGetPackageRoot)system.security.permissions\*\lib\net6.0\System.Security.Permissions.dll" />
-		<EmbeddedResource Include="$(NuGetPackageRoot)system.configuration.configurationmanager\*\lib\net6.0\System.Configuration.ConfigurationManager.dll" />
-		<EmbeddedResource Include="$(NuGetPackageRoot)system.text.encoding.codepages\*\lib\net6.0\System.Text.Encoding.CodePages.dll" />
+		<EmbeddedResource Include="$(NuGetPackageRoot)system.security.permissions\8.0.0\lib\net6.0\System.Security.Permissions.dll" />
+		<EmbeddedResource Include="$(NuGetPackageRoot)system.configuration.configurationmanager\8.0.0\lib\net6.0\System.Configuration.ConfigurationManager.dll" />
+		<EmbeddedResource Include="$(NuGetPackageRoot)system.text.encoding.codepages\8.0.0\lib\net6.0\System.Text.Encoding.CodePages.dll" />
 	</ItemGroup>
 	<ItemGroup>
 	  <None Include=".github\FUNDING.yml" />
