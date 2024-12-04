@@ -27,8 +27,10 @@ jobs:
           fetch-depth: 0
 
       - name: Restore dependencies
-        run: dotnet restore
-
+        run: |
+          dotnet restore
+          dotnet restore --force --no-cache
+          
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0.9.7
         with:
@@ -40,7 +42,7 @@ jobs:
           additionalArguments: '/updateprojectfiles /overrideconfig "mode=Mainline"'
 
       - name: Build (Release)
-        run: dotnet build . --configuration Release -p:Version=$GitVersion_SemVer -p:LangVersion=latest
+        run: dotnet build . --configuration Release --verbosity detailed -p:Version=$GitVersion_SemVer -p:LangVersion=latest
         
       - name: GH Release
         uses: softprops/action-gh-release@v1

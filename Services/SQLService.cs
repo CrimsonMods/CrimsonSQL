@@ -15,8 +15,6 @@ internal class SQLService : ISQLService
     private static bool reportConnection = true;
     public SQLService()
     {
-        AssemblyResolver.Resolve();
-
         connectionString = $"Server={Settings.Host.Value};Database={Settings.DatabaseName.Value};User ID={Settings.UserName.Value};Password={Settings.Password.Value};{Settings.Parameters.Value}";
 
         Connect();

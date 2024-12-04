@@ -4,6 +4,7 @@ using BepInEx.Unity.IL2CPP;
 using CrimsonSQL.API;
 using CrimsonSQL.Services;
 using CrimsonSQL.Structs;
+using CrimsonSQL.Utility;
 using HarmonyLib;
 
 namespace CrimsonSQL;
@@ -24,6 +25,7 @@ public class Plugin : BasePlugin
         Instance = this;
         Settings = new Settings();
         Settings.InitConfig();
+        AssemblyResolver.Resolve();
 
         _harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
         _harmony.PatchAll(System.Reflection.Assembly.GetExecutingAssembly());
