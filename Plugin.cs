@@ -17,19 +17,29 @@ public class Plugin : BasePlugin
     public static Harmony Harmony => Instance._harmony;
     public static ManualLogSource LogInstance => Instance.Log;
     public static Settings Settings;
-    public static ISQLService SQLService {  get; private set; }
-    
+    public static ISQLService SQLService { get; private set; }
 
     public override void Load()
     {
         Instance = this;
+
+        var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+        var resourceNames = assembly.GetManifestResourceNames();
+
+        LogInstance.LogInfo("=== Embedded Resources ===");
+        foreach (var resource in resourceNames)
+        {
+            LogInstance.LogInfo(resource);
+        }
+        LogInstance.LogInfo("========================");
+
         Settings = new Settings();
         Settings.InitConfig();
         AssemblyResolver.Resolve();
 
         _harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
         _harmony.PatchAll(System.Reflection.Assembly.GetExecutingAssembly());
-        
+
         if (Settings.MySQLConfigured)
         {
             SQLService = new SQLService();
