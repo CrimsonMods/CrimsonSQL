@@ -1,4 +1,4 @@
-`1.2.10`
+`latest`
 - Changed Replace to return primary key int
 - Added handled exception code list to insert parameters
 - Removed Spam from checking Connect()
