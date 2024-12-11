@@ -1,4 +1,8 @@
 `latest`
+- Fixed recovering configuration on reconnection established
+- Removed dependencies on V Rising Unhallowed
+
+`1.3.0`
 - Changed Replace to return primary key int
 - Added handled exception code list to insert parameters
 - Removed Spam from checking Connect()

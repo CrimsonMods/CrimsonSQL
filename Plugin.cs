@@ -1,7 +1,6 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
-using CrimsonSQL.API;
 using CrimsonSQL.Services;
 using CrimsonSQL.Structs;
 using CrimsonSQL.Utility;

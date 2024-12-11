@@ -30,6 +30,7 @@ public class SQLService : ISQLService
                 {
                     reportConnection = false;
                     Plugin.LogInstance.LogInfo("Connected to MySQL database.");
+                    Settings.MySQLConfigured = true;
                 }
                 return true;
             }
@@ -42,7 +43,7 @@ public class SQLService : ISQLService
                 $"\nError Code: {e.ErrorCode} " +
                 $"\nNumber: {e.Number} " +
                 $"\nMessage: {e.Message}" +
-                $"\nInner: {e.InnerException.Message}");
+                $"\nInner: {e.InnerException?.Message}");
 
             reportConnection = true;
             return false;
