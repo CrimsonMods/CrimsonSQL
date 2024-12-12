@@ -3,7 +3,7 @@ schemaVersion = "0.0.1"
 
 [package]
 namespace = "skytech6"
-name = "CrimsonSQL - SoD"
+name = "CrimsonSQL SoD"
 versionNumber = "0.1.0"
 description = "Framework for Interfacing MySQL"
 websiteUrl = "https://github.com/CrimsonMods/CrimsonSQL/"
