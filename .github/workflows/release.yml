@@ -38,8 +38,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Install tcli
         run: dotnet tool install --global tcli
-      - name: Run tcli
-        run: tcli publish --token ${{ secrets.THUNDERSTORE_KEY }} --package-version ${RELEASE_TAG:1}
+
+      - name: Publish to V Rising Thunderstore
+        run: tcli publish --token ${{ secrets.THUNDERSTORE_KEY }} --package-version ${RELEASE_TAG:1} --config-path ./thunderstore-vrising.toml
+
+      - name: Publish to Shadows of Doubt Thunderstore
+        run: tcli publish --token ${{ secrets.THUNDERSTORE_KEY }} --package-version ${RELEASE_TAG:1} --config-path ./thunderstore-doubt.toml
+
+      - name: Publish to Sons of Forest Thunderstore
+        run: tcli publish --token ${{ secrets.THUNDERSTORE_KEY }} --package-version ${RELEASE_TAG:1} --config-path ./thunderstore-sonsforest.toml
+
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.0
         with:

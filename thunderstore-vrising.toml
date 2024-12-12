@@ -22,7 +22,7 @@ source = "./dist"
 target = ""
 
 [publish]
-communities = ["ultrakill"]
-repository = "https://thunderstore.dev"
+communities = ["v-rising"]
+repository = "https://thunderstore.io"
 [publish.categories]
-ultrakill = ["mods"]
+v-rising = ["1-0-update", "mods", "server"]

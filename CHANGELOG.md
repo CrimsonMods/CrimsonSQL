@@ -1,6 +1,8 @@
 `latest`
 - Fixed recovering configuration on reconnection established
 - Removed dependencies on V Rising Unhallowed
+- Added Page for _Shadows of Doubt_
+- Added Page for _Sons of the Forest_
 
 `1.3.0`
 - Changed Replace to return primary key int
