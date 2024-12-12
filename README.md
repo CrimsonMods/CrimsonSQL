@@ -1,13 +1,15 @@
 # CrimsonSQL
-`Server side only` framework plugin for accessing a MySQL Database
+Framework/Library plugin for accessing a MySQL Database
 
 This is a framework dependency for other mods to utilize MySQL (and other flavors of MySQL) to sync information between servers or for external tools.
 
 For example; [CrimsonBanned](https://thunderstore.io/c/v-rising/p/skytech6/CrimsonBanned/) uses this dependency to sync bans across different servers. 
 
+_Originally created for V Rising, but works with other IL2CPP BepInEx games._
+
 ## Installation
-* Install [BepInEx](https://v-rising.thunderstore.io/package/BepInEx/BepInExPack_V_Rising/)
-* Extract _CrimsonSQL.dll_ into _(VRising server folder)/BepInEx/plugins_
+* Install the version of BepInEx that is defined in the Dependencies. 
+* Extract _CrimsonSQL.dll_ into _(Game/Server Folder)/BepInEx/plugins_
 
 I recommend setting your MySQL database to version _8.0.22_ if possible or other MySQL 8 versions. May work with other versions 7 & 9 and may work with other flavors of SQL such as MariaDB, but no gurantees. 
 
@@ -61,7 +63,7 @@ If you're having issues with connection to the database, it is possible the conn
 
 ## Verify Install
 
-In your _(VRising server folder)/BepInEx/LogOutput.log_ file you will see either a successful connection message
+In your _(game / server folder)/BepInEx/LogOutput.log_ file you will see either a successful connection message
 ```
 [Info   :   BepInEx] Loading [CrimsonSQL 0.1.10]
 [Info   :CrimsonSQL] Connected to MySQL database.
@@ -76,7 +78,7 @@ Check out the [wiki section for documentation](https://thunderstore.io/c/v-risin
 
 ## Support
 
-Want to support my V Rising Mod development? 
+Want to support my modding development? 
 
 Donations Accepted
 
