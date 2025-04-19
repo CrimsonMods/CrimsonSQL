@@ -72,10 +72,22 @@ In your _(game / server folder)/BepInEx/LogOutput.log_ file you will see either 
 Or an error message that prints out information from SQL on what is wrong. Refer to the [SQL Error Documentation](https://dev.mysql.com/doc/mysql-errors/8.0/en/server-error-reference.html) for the output error code. 
 
 ## Integration with Other Mods
+
+If you're a developer: CrimsonSQL is available as a NuGet package for easy integration into your projects
+```shell
+dotnet add package VRising.CrimsonSQL
+```
+Or add it directly to your project file:
+
+```xml
+<PackageReference Include="VRising.CrimsonSQL" Version="x.x.x" />
+```
+
 This mod was created alongside [CrimsonBanned](https://thunderstore.io/c/v-rising/p/skytech6/CrimsonBanned/). However, any mod can integrate with CrimsonSQL. 
 
 Check out the [wiki section for documentation](https://thunderstore.io/c/v-rising/p/skytech6/CrimsonSQL/wiki/) on how to integrate this mod as an optional dependency. 
 
+Have questions or feedback on this library? Join the [Modding Discord](https://discord.gg/xzd5U5cNyD)!
 ## Support
 
 Want to support my modding development? 

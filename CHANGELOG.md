@@ -1,4 +1,9 @@
 `latest`
+- Added Batch Operation
+- Table Mapping Customization
+- Clear Table Operation
+
+`1.3.2`
 - Fixed recovering configuration on reconnection established
 - Removed dependencies on V Rising Unhallowed
 - Added Page for _Shadows of Doubt_

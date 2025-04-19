@@ -17,6 +17,7 @@ public class Plugin : BasePlugin
     public static ManualLogSource LogInstance => Instance.Log;
     public static Settings Settings;
     public static SQLService SQLService { get; private set; }
+    public static TableMapping TableMapping { get; private set; }
 
     public override void Load()
     {
@@ -34,6 +35,7 @@ public class Plugin : BasePlugin
 
         Settings = new Settings();
         Settings.InitConfig();
+        TableMapping = new TableMapping();
         AssemblyResolver.Resolve();
 
         _harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);

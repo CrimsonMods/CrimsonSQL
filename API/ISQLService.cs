@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using CrimsonSQL.Structs;
 
 namespace CrimsonSQL.API;
 
@@ -65,4 +66,17 @@ public interface ISQLService
     /// <param name="newValues">Dictionary of column names and new values to insert</param>
     /// <returns>True if replacement successful, false otherwise</returns>
     int Replace(string tableName, Dictionary<string, object> whereConditions, Dictionary<string, object> newValues);
+
+    /// <summary>
+    /// Executes a batch of SQL operations in a single transaction
+    /// </summary>
+    /// <param name="operations">List of batch operations to execute</param>
+    /// <returns>List of IDs for the affected rows</returns>
+    List<int> ExecuteBatch(List<BatchOperation> operations);
+
+    /// <summary>
+    /// Clears all rows from the specified table
+    /// </summary>
+    /// <param name="tableName">Name of the table to clear</param>
+    void ClearTable(string tableName);
 }
