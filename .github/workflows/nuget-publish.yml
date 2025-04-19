@@ -1,0 +1,48 @@
+name: Publish NuGet Package
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        required: true
+        description: The tag to release.
+        type: string
+
+jobs:
+  publish_nuget:
+    env:
+      RELEASE_TAG: ${{ github.event.inputs.tag_name || github.event.release.tag_name }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.x
+          
+      - name: Determine version from tag
+        run: echo "PACKAGE_VERSION=${RELEASE_TAG#v}" >> $GITHUB_ENV
+        
+      - name: Restore dependencies
+        run: dotnet restore
+        
+      - name: Build project
+        run: dotnet build --configuration Release --no-restore /p:Version=${{ env.PACKAGE_VERSION }}
+        
+      - name: Create NuGet package
+        run: dotnet pack --configuration Release --no-build /p:Version=${{ env.PACKAGE_VERSION }} --output ./nupkg
+        
+      - name: Publish to NuGet.org
+        run: dotnet nuget push ./nupkg/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+        
+      - name: Upload NuGet package as artifact
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: nuget-packages
+          path: ./nupkg
