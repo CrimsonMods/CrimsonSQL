@@ -1,4 +1,7 @@
 `latest`
+- Updated for BepInEx 1.733.2
+
+`1.4.0`
 - Added Batch Operation
 - Table Mapping Customization
 - Clear Table Operation

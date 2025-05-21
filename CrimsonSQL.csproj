@@ -26,9 +26,9 @@
 		<Copy SourceFiles="$(OutDir)\CrimsonSQL.dll" DestinationFolder="$(SolutionDir)/dist" />
 	</Target>
 	<ItemGroup>
-		<PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.721"
+		<PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.733"
 			IncludeAssets="compile" />
-		<PackageReference Include="BepInEx.Core" Version="6.0.0-be.721" IncludeAssets="compile" />
+		<PackageReference Include="BepInEx.Core" Version="6.0.0-be.733" IncludeAssets="compile" />
 		<PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
 		<PackageReference Include="Costura.Fody" Version="5.7.0">
 			<PrivateAssets>all</PrivateAssets>

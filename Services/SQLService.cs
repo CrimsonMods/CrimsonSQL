@@ -240,6 +240,25 @@ public class SQLService : ISQLService
         command.ExecuteNonQuery();
     }
 
+    public long ExecuteNonQueryWithLastInsertedId(string query, Dictionary<string, object> parameters = null)
+    {
+        if (!Settings.MySQLConfigured) { Plugin.LogInstance.LogError("Attempted to use CrimsonSQL with a misconfigured SQL."); }
+        using var connection = new MySqlConnection(connectionString);
+        using var command = new MySqlCommand(query, connection);
+
+        if (parameters != null)
+        {
+            foreach (var param in parameters)
+            {
+                command.Parameters.AddWithValue($"@{param.Key}", param.Value);
+            }
+        }
+
+        connection.Open();
+        command.ExecuteNonQuery();
+        return command.LastInsertedId;
+    }
+
     #endregion
 
     #region Batch Operations

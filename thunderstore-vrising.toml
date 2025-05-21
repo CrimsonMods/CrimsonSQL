@@ -10,7 +10,7 @@ websiteUrl = "https://github.com/CrimsonMods/CrimsonSQL/"
 containsNsfwContent = false
 
 [package.dependencies]
-BepInEx-BepInExPack_V_Rising = "1.691.3"
+BepInEx-BepInExPack_V_Rising = "1.733.2"
 
 [build]
 icon = "./images/logo_256.png"
@@ -25,4 +25,4 @@ target = ""
 communities = ["v-rising"]
 repository = "https://thunderstore.io"
 [publish.categories]
-v-rising = ["1-0-update", "mods", "server"]
+v-rising = ["oakveil-update", "1-0-update", "mods", "server"]

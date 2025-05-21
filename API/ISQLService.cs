@@ -20,6 +20,14 @@ public interface ISQLService
     void ExecuteNonQuery(string query, Dictionary<string, object> parameters = null);
 
     /// <summary>
+    /// Executes a non-query SQL command with optional parameters and returns the number of affected rows
+    /// </summary>
+    /// <param name="query">The SQL query to execute</param>
+    /// <param name="parameters">Optional dictionary of parameters to use in the query</param>
+    /// <returns>The last inserted id</returns>
+    long ExecuteNonQueryWithLastInsertedId(string query, Dictionary<string, object> parameters = null);
+
+    /// <summary>
     /// Executes a SQL query and returns the results as a DataTable
     /// </summary>
     /// <param name="query">The SQL query to execute</param>
