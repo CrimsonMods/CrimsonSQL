@@ -1,4 +1,7 @@
 `latest`
+- Updated readme
+
+`1.4.4`
 - Updated for BepInEx 1.733.2
 
 `1.4.0`
